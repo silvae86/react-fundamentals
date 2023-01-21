@@ -71,24 +71,51 @@
 <script src="https://unpkg.com/react-dom@18.1.0/umd/react-dom.development.js"></script>
 <script src="https://unpkg.com/@babel/standalone@7.12.4/babel.js"></script>
 <script type="text/babel">
-  // 🐨 use that function in place of the divs below with:
-  // 💰 {message({children: 'Hello World'})} {message({children: 'Goodbye World'})}
-  function Message({subject, greeting}) {
-    return (
-      <div className="message">
-        {greeting}, {subject}
-      </div>
-    )
-  }
+    const PropTypes = {
+        number(props, propName, componentName) {
+            if (typeof props[propName] !== 'number') {
+                return new Error(propName + "should be a number")
+            }
+        },
+        string(props, propName, componentName) {
+            if (typeof props[propName] !== 'string') {
+                return new Error(propName + "should be a string")
+            }
+        }
+    }
 
-  const element = <div className="container">
-    <Message greeting="Hello" subject="World"></Message>
-    <Message greeting="Goodbye" subject="World from extra credit 2"></Message>
-  </div>
+    // 🐨 use that function in place of the divs below with:
+    // 💰 {message({children: 'Hello World'})} {message({children: 'Goodbye World'})}
+    function Message({subject, greeting}) {
+        return (
+            <div className="message">
+                {greeting}, {subject}
+            </div>
+        )
+    }
 
-  // 💯 This is only the first step to making actual React components. The rest is in the extra credit!
-  // ReactDOM.createRoot(document.getElementById('root')).render(element)
-  ReactDOM.createRoot(document.getElementById("root")).render(element);
+    Message.propTypes = {
+        greeting: PropTypes.string,
+        subject: PropTypes.string
+    }
+
+    function FavoriteNumber({favoriteNumber}) {
+        return <div>My favorite number is: {favoriteNumber}</div>
+    }
+
+    FavoriteNumber.propTypes = {
+        favoriteNumber: PropTypes.number,
+    }
+
+    const element = <div className="container">
+        <FavoriteNumber favoriteNumber="not a number"></FavoriteNumber>
+        <Message greeting="Hello" subject="World"></Message>
+        <Message greeting="Goodbye" subject="World from extra credit 2"></Message>
+    </div>
+
+    // 💯 This is only the first step to making actual React components. The rest is in the extra credit!
+    // ReactDOM.createRoot(document.getElementById('root')).render(element)
+    ReactDOM.createRoot(document.getElementById("root")).render(element);
 </script>
 </body>
 
