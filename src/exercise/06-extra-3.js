@@ -2,7 +2,7 @@
 // http://localhost:3000/isolated/exercise/06.js
 
 import * as React from 'react'
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
 function UsernameForm({onSubmitUsername}) {
   // 🐨 add a submit event handler here (`handleSubmit`).
@@ -20,26 +20,25 @@ function UsernameForm({onSubmitUsername}) {
 
   // 🐨 make sure to associate the label to the input.
   // to do so, set the value of 'htmlFor' prop of the label to the id of input
+  const [username, setUsername] = useState("");
 
-  const usernameInputRef = useRef(null)
-  const [inputError, setInputError] = useState(false);
-
-  const onTextChange = () => {
-    const value = usernameInputRef.current?.value
-    console.log("current" + value)
-    setInputError(value.toLowerCase() !== value);
+  const onUsernameChange = (event) => {
+    event.preventDefault();
+    setUsername(username);
   }
 
   return (
     <form onSubmit={(e) => {
       e.preventDefault();
-      onSubmitUsername(usernameInputRef.current?.value);
+      onSubmitUsername(username);
     }}
           className="username-form">
       <div>
-        <label>Username:</label>
-        <input type="text" onChange={onTextChange} ref={usernameInputRef} />
-        {inputError && <text style={{ color: "red" }}>Value is not valid. Please type lowercase letters only</text>}
+        <label htmlFor="username-text-box">Username:</label>
+        <input id="username-text-box"
+               type="text"
+               onChange={onUsernameChange}
+               value={username} />
       </div>
       <button type="submit">Submit</button>
     </form>
